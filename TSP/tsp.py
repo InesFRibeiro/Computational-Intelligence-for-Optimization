@@ -44,34 +44,40 @@ Individual.get_neighbours = get_neighbours
 
 
 n = 5
-evo_list = []
+V = 6
 
-for i in range(n):
+for j in range(V):
 
+    evo_list = []
+    for i in range(n):
 
-    pop = Population(
-        size=20,
-        sol_size=len(distance_matrix[0]),
-        valid_set=[i for i in range(len(distance_matrix[0]))],
-        replacement=False,
-        optim="min",
-    )
+        pop = Population(
+            size=20,
+            sol_size=len(distance_matrix[0]),
+            valid_set=[i for i in range(len(distance_matrix[0]))],
+            replacement=False,
+            optim="min",
+        )
 
-    evo_list.append(pop.evolve(
-        gens=100,
-        select=tournament,
-        crossover=pmx_co,
-        mutate=inversion_mutation,
-        co_p=0.9,
-        mu_p=0.1,
-        elitism=True
-    ))
+        evo_list.append(pop.evolve(
+            gens=100,
+            select=tournament,
+            crossover=pmx_co,
+            mutate=inversion_mutation,
+            co_p=0.9,
+            mu_p=0.1,
+            elitism=True
+        ))
 
-print(evo_list)
+    print(evo_list)
 
-for edict in range(len(evo_list)):
-    plt.plot(evo_list[edict].keys(),\
-        evo_list[edict].values(),label='Run '+str(edict))
-    plt.legend()
+    row = 2*j//V
+    col = max(j*abs(2*j//V-1),j-V//2)
+    
+    for edict in range(len(evo_list)):  
+        plt.plot(evo_list[edict].keys(),\
+            evo_list[edict].values(),label='Run '+str(edict))
+        plt.legend()
 
-plt.show()
+    plt.show()
+    
