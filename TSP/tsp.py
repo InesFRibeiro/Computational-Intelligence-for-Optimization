@@ -1,11 +1,11 @@
-from charles.charles import Population, Individual
-from charles.search import hill_climb, sim_annealing
-from data.tsp_data import distance_matrix
+from charles import Population, Individual
+from search import hill_climb, sim_annealing
+from tsp_data import distance_matrix
 from copy import deepcopy
-from charles.selection import fps, tournament
-from charles.mutation import swap_mutation, inversion_mutation
-from charles.crossover import cycle_co, pmx_co
-
+from selection import fps, tournament
+from mutation import swap_mutation, inversion_mutation
+from crossover import cycle_co, pmx_co
+import matplotlib.pyplot as plt
 
 def get_fitness(self):
     """A simple objective function to calculate distances
@@ -19,6 +19,8 @@ def get_fitness(self):
         fitness += distance_matrix[self.representation[i - 1]][self.representation[i]]
     return int(fitness)
 
+def get_fitness_2():
+    pass
 
 def get_neighbours(self):
     """A neighbourhood function for the TSP problem. Switches
@@ -41,20 +43,35 @@ Individual.get_fitness = get_fitness
 Individual.get_neighbours = get_neighbours
 
 
-pop = Population(
-    size=20,
-    sol_size=len(distance_matrix[0]),
-    valid_set=[i for i in range(len(distance_matrix[0]))],
-    replacement=False,
-    optim="min",
-)
+n = 5
+evo_list = []
 
-pop.evolve(
-    gens=100,
-    select=tournament,
-    crossover=pmx_co,
-    mutate=inversion_mutation,
-    co_p=0.9,
-    mu_p=0.1,
-    elitism=True
-)
+for i in range(n):
+
+
+    pop = Population(
+        size=20,
+        sol_size=len(distance_matrix[0]),
+        valid_set=[i for i in range(len(distance_matrix[0]))],
+        replacement=False,
+        optim="min",
+    )
+
+    evo_list.append(pop.evolve(
+        gens=100,
+        select=tournament,
+        crossover=pmx_co,
+        mutate=inversion_mutation,
+        co_p=0.9,
+        mu_p=0.1,
+        elitism=True
+    ))
+
+print(evo_list)
+
+for edict in range(len(evo_list)):
+    plt.plot(evo_list[edict].keys(),\
+        evo_list[edict].values(),label='Run '+str(edict))
+    plt.legend()
+
+plt.show()

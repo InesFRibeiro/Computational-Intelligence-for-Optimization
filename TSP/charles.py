@@ -1,7 +1,7 @@
 from random import shuffle, choice, sample, random
 from operator import attrgetter
 from copy import deepcopy
-
+import numpy as np
 
 class Individual:
     def __init__(
@@ -47,6 +47,7 @@ class Population:
         self.individuals = []
         self.size = size
         self.optim = optim
+
         for _ in range(size):
             self.individuals.append(
                 Individual(
@@ -57,6 +58,8 @@ class Population:
             )
 
     def evolve(self, gens, select, crossover, mutate, co_p, mu_p, elitism):
+        
+        best_fit_dict = {}
         for gen in range(gens):
             new_pop = []
 
@@ -94,15 +97,25 @@ class Population:
             self.individuals = new_pop
 
             if self.optim == "max":
-                print(f'Best Individual: {max(self, key=attrgetter("fitness"))}')
+                best_fit = max(self, key=attrgetter("fitness"))
             elif self.optim == "min":
-                print(f'Best Individual: {min(self, key=attrgetter("fitness"))}')
+                best_fit = min(self, key=attrgetter("fitness")) 
+                
+            #print(f'Best Individual: {best_fit}')
+            best_fit_dict[gen] = best_fit.fitness
+
+        return best_fit_dict # lista de fitnesses por geração
+        # para fazer o gráfico de comparação de algoritmos
+        # banana
 
     def __len__(self):
         return len(self.individuals)
 
     def __getitem__(self, position):
         return self.individuals[position]
+
+    def getBestFit(self):
+        return self.best_fit
 
     def __repr__(self):
         return f"Population(size={len(self.individuals)}, individual_size={len(self.individuals[0])})"
