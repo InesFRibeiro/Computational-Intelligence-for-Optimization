@@ -1,5 +1,5 @@
-from random import randint, uniform, sample
-
+from random import randint, uniform, sample, random
+from copy import deepcopy
 
 def single_point_co(p1, p2):
     """Implementation of single point crossover.
@@ -120,6 +120,71 @@ def arithmetic_co(p1, p2):
         offspring2[i] = p2[i] * alpha + (1 - alpha) * p1[i]
 
     return offspring1, offspring2
+
+
+
+def get_two_diff_order_index(start=0, stop=1, order=True, diff=True):
+    """
+    Returns two integers from a range, they can be:
+        put in order (default) or unordered
+        always different(default) or can be repeated
+    start - integer (default = 0)
+    stop - integer (default= 1)
+    order - boolean ( default= True)
+    """
+    my_range = stop - start
+    first = int(my_range * random())+start
+    second = int(my_range * random())+start
+
+    #first = randint(start, stop)
+    #second = randint(start, stop)
+
+    if diff:
+        while first == second:
+            second = int( my_range * random()) + start
+            #second = randint(start, stop)
+    if order:
+        if first > second:
+            second, first = first, second
+
+    return first, second
+
+
+def order1_crossover(solution1, solution2):
+    # copy the parents to the children because we only need to change the middle part and the repeated elements
+    offspring1 = deepcopy(solution1)
+    offspring2 = deepcopy(solution2)
+
+    # get two different, ordered, indexes
+    crosspoint1, crosspoint2 = get_two_diff_order_index(0, (len(solution1.representation) - 1))
+
+    # indexes of the elements not in the middle
+    sub = [*range((crosspoint2+1), len(offspring1.representation))]+[*range(0, crosspoint1)]
+    len_sub = len(sub)
+    j = 0
+    k = 0
+
+    if crosspoint2 == (len(solution1.representation)-1) and crosspoint1 == 0:
+        return solution1, solution2
+    else:
+                        # order by which elements must be considered
+        for i in [*range((crosspoint2+1), len(offspring1.representation))]+[*range(0, (crosspoint2+1))]:
+
+            # replace offspring1 if element is not in the middle
+            if solution2.representation[i] not in solution1.representation[crosspoint1:(crosspoint2+1)]:
+                offspring1.representation[sub[j]] = solution2.representation[i]
+                j += 1
+
+            # replace offspring2 if element is not in the middle
+            if solution1.representation[i] not in solution2.representation[crosspoint1:(crosspoint2+1)]:
+                offspring2.representation[sub[k]] = solution1.representation[i]
+                k += 1
+
+            if j == len_sub and k == len_sub:
+                break
+
+        return offspring1, offspring2
+
 
 
 if __name__ == '__main__':

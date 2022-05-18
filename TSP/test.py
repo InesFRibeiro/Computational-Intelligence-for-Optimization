@@ -1,0 +1,59 @@
+from random import randint, uniform, sample, random
+import random
+
+def cxOrdered(ind1, ind2):
+    """Executes an ordered crossover (OX) on the input
+    individuals. The two individuals are modified in place. This crossover
+    expects :term:`sequence` individuals of indices, the result for any other
+    type of individuals is unpredictable.
+    :param ind1: The first individual participating in the crossover.
+    :param ind2: The second individual participating in the crossover.
+    :returns: A tuple of two individuals.
+    Moreover, this crossover generates holes in the input
+    individuals. A hole is created when an attribute of an individual is
+    between the two crossover points of the other individual. Then it rotates
+    the element so that all holes are between the crossover points and fills
+    them with the removed elements in order. For more details see
+    [Goldberg1989]_.
+    This function uses the :func:`~random.sample` function from the python base
+    :mod:`random` module.
+    .. [Goldberg1989] Goldberg. Genetic algorithms in search,
+       optimization and machine learning. Addison Wesley, 1989
+    """
+
+    #size stored in this variable
+    size = min(len(ind1), len(ind2))
+    #a and b are randomized window indexes
+    a, b = random.sample(list(range(size)), 2)
+    #a is always the 1st index, b is always the 2nd
+    if a > b:
+        a, b = b, a
+    #genes that are outside each window
+    holes1, holes2 = [True] * size, [True] * size
+    for i in range(size):
+        if i < a or i > b:
+            holes1[ind2[i]] = False
+            holes2[ind1[i]] = False
+
+    # We must keep the original values somewhere before scrambling everything
+    temp1, temp2 = ind1, ind2
+    k1, k2 = b + 1, b + 1
+    for i in range(size):
+        if not holes1[temp1[(i + b + 1) % size]]:
+            ind1[k1 % size] = temp1[(i + b + 1) % size]
+            k1 += 1
+
+        if not holes2[temp2[(i + b + 1) % size]]:
+            ind2[k2 % size] = temp2[(i + b + 1) % size]
+            k2 += 1
+
+    # Swap the content between a and b (included)
+    for i in range(a, b + 1):
+        ind1[i], ind2[i] = ind2[i], ind1[i]
+
+    return ind1, ind2
+
+ind1 = [7,6,9,1,3]
+ind2 = [4,2,9,8,6]
+
+print(cxOrdered(ind1,ind2))

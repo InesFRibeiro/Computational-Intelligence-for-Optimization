@@ -2,7 +2,7 @@ from charles import Population, Individual
 from search import hill_climb, sim_annealing
 from tsp_data import distance_matrix
 from copy import deepcopy
-from selection import fps, tournament
+from selection import fps, tournament, ranking_selection
 from mutation import swap_mutation, inversion_mutation
 from crossover import cycle_co, pmx_co
 import matplotlib.pyplot as plt
@@ -59,7 +59,7 @@ for i in range(n):
 
     evo_list.append(pop.evolve(
         gens=100,
-        select=tournament,
+        select=fps,
         crossover=pmx_co,
         mutate=inversion_mutation,
         co_p=0.9,
