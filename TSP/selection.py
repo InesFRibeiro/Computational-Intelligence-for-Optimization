@@ -25,16 +25,30 @@ def fps(population):
                 return individual
 
     elif population.optim == "min":
+
         # Sum total fitness
-        total_invert_fitness = sum([1/i.fitness for i in population])
+        total_fitness = sum([i.fitness for i in population])
         # Get a 'position' on the wheel
-        spin = uniform(0, total_invert_fitness)
+        spin = -uniform(0, total_fitness)
         position = 0
         # Find individual in the position of the spin
         for individual in population:
-            position += 1/individual.fitness
-            if position > spin:
+            position -= individual.fitness
+            if position < spin:
                 return individual
+
+        # Sum total fitness
+
+        # total_invert_fitness = sum([1/i.fitness for i in population if i.fitness != 0 ])
+        # # Get a 'position' on the wheel
+        # spin = uniform(0, total_invert_fitness)
+        # position = 0
+        # # Find individual in the position of the spin
+        # for individual in population:
+        #     if individual.fitness != 0:
+        #         position += 1/individual.fitness
+        #         if position > spin:
+        #             return individual
 
 
     else:
@@ -68,7 +82,7 @@ def ranking_selection(population):
         fitness_list = [individual.fitness for individual in population]
         fitness_list, population = zip(*sorted(zip(fitness_list, population), reverse=True))
         fitness_list, population = list(fitness_list), list(population)
-        total_positions = [i for i in range(1, len(fitness_list) + 1)].sum()
+        total_positions = sum([i for i in range(1, len(fitness_list) + 1)])
         #prob_list = [i for i in range(1, len(fitness_list) + 1)] / total_positions
         # Get a 'position' on the wheel
         spin = uniform(0, total_positions)
@@ -83,7 +97,7 @@ def ranking_selection(population):
         inverted_fitness_list = [1/individual.fitness for individual in population]
         inverted_fitness_list, population = zip(*sorted(zip(inverted_fitness_list, population), reverse=True))
         inverted_fitness_list, population = list(inverted_fitness_list), list(population)
-        total_positions = [i for i in range(1, len(inverted_fitness_list) + 1)].sum()
+        total_positions = sum([i for i in range(1, len(inverted_fitness_list) + 1)])
         #prob_list = [i for i in range(1, len(inverted_fitness_list) + 1)] / total_positions
         # Get a 'position' on the wheel
         spin = uniform(0, total_positions)
