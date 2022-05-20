@@ -1,29 +1,4 @@
-from random import randint, sample
-
-
-def binary_mutation(individual):
-    """Binary mutation for a GA individual
-
-    Args:
-        individual (Individual): A GA individual from charles.py
-
-    Raises:
-        Exception: When individual is not binary encoded.py
-
-    Returns:
-        Individual: Mutated Individual
-    """
-    mut_point = randint(0, len(individual) - 1)
-
-    if individual[mut_point] == 0:
-        individual[mut_point] = 1
-    elif individual[mut_point] == 1:
-        individual[mut_point] = 0
-    else:
-        raise Exception(
-            f"Trying to do binary mutation on {individual}. But it's not binary.")
-
-    return individual
+from random import randint, sample, randrange
 
 
 def swap_mutation(individual):
@@ -62,6 +37,27 @@ def inversion_mutation(individual):
 
     return individual
 
+
+def greedy_mutations(individual):
+
+    mut_list = []
+    mut_list.extend(individual)
+    rng = randrange(0, len(individual))
+    city = individual[rng]
+
+    fkcja_celu = individual.get_fitness()
+    for i in range(len(individual)):
+
+        if i == 0:
+            individual.pop(rng)
+        else:
+            individual.pop(i - 1)
+
+        individual.insert(i, city)
+        tmpfkcja_celu = individual.get_fitness()
+        if tmpfkcja_celu < fkcja_celu:
+            return individual
+    return mut_list
 
 if __name__ == '__main__':
     test = [6, 1, 3, 5, 2, 4, 7]

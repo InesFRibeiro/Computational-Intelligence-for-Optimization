@@ -1,22 +1,5 @@
-from random import randint, uniform, sample, random
+from random import randint, uniform, sample, random, randrange
 from copy import deepcopy
-
-def single_point_co(p1, p2):
-    """Implementation of single point crossover.
-
-    Args:
-        p1 (Individual): First parent for crossover.
-        p2 (Individual): Second parent for crossover.
-
-    Returns:
-        Individuals: Two offspring, resulting from the crossover.
-    """
-    co_point = randint(1, len(p1)-2)
-
-    offspring1 = p1[:co_point] + p2[co_point:]
-    offspring2 = p2[:co_point] + p1[co_point:]
-
-    return offspring1, offspring2
 
 
 def cycle_co(p1, p2):
@@ -57,7 +40,7 @@ def cycle_co(p1, p2):
     return offspring1, offspring2
 
 
-def pmx_co(p1, p2):
+def pmx_co(p1, p2): # doesn't work
     """Implementation of partially matched/mapped crossover.
 
     Args:
@@ -150,7 +133,7 @@ def get_two_diff_order_index(start=0, stop=1, order=True, diff=True):
     return first, second
 
 
-def order1_crossover(solution1, solution2):
+def order1_crossover(solution1, solution2): # bad representation
     # copy the parents to the children because we only need to change the middle part and the repeated elements
     offspring1 = deepcopy(solution1)
     offspring2 = deepcopy(solution2)
@@ -185,7 +168,40 @@ def order1_crossover(solution1, solution2):
 
         return offspring1, offspring2
 
+def cx_crossover(parent1, parent2):
 
+        def process_gen_repeated(copy_child1, copy_child2):
+            count1 = 0
+            for gen1 in copy_child1[:pos]:
+                repeat = 0
+                repeat = copy_child1.count(gen1)
+                if repeat > 1:  # If need to fix repeated gen
+                    count2 = 0
+                    for gen2 in parent1[pos:]:  # Choose next available gen
+                        if gen2 not in copy_child1:
+                            child1[count1] = parent1[pos:][count2]
+                        count2 += 1
+                count1 += 1
+
+            count1 = 0
+            for gen1 in copy_child2[:pos]:
+                repeat = 0
+                repeat = copy_child2.count(gen1)
+                if repeat > 1:  # If need to fix repeated gen
+                    count2 = 0
+                    for gen2 in parent2[pos:]:  # Choose next available gen
+                        if gen2 not in copy_child2:
+                            child2[count1] = parent2[pos:][count2]
+                        count2 += 1
+                count1 += 1
+
+            return [child1, child2]
+
+        pos = randrange(1, len(parent1) - 1)
+        child1 = parent1[:pos] + parent2[pos:]
+        child2 = parent2[:pos] + parent1[pos:]
+
+        return process_gen_repeated(child1, child2)
 
 if __name__ == '__main__':
     p1, p2 = [9, 8, 4, 5, 6, 7, 1, 3, 2, 10], [8, 7, 1, 2, 3, 10, 9, 5, 4, 6]

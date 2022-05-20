@@ -29,6 +29,9 @@ class Individual:
     def index(self, value):
         return self.representation.index(value)
 
+    def returnPath(self):
+        return self.representation
+
     def __len__(self):
         return len(self.representation)
 
@@ -41,6 +44,8 @@ class Individual:
     def __repr__(self):
         return f"Individual(size={len(self.representation)}); Fitness: {self.fitness}"
 
+    def __lt__(self, other):
+        return self.fitness < other.fitness
 
 class Population:
     def __init__(self, size, optim, **kwargs):
@@ -104,7 +109,8 @@ class Population:
             #print(f'Best Individual: {best_fit}')
             best_fit_dict[gen] = best_fit.fitness
 
-        return best_fit_dict # lista de fitnesses por geração
+        return best_fit_dict, self
+        # lista de fitnesses por geração
         # para fazer o gráfico de comparação de algoritmos
         # banana
 
@@ -113,6 +119,9 @@ class Population:
 
     def __getitem__(self, position):
         return self.individuals[position]
+
+    def getIndivs(self):
+        return self.individuals
 
     def getBestFit(self):
         return self.best_fit

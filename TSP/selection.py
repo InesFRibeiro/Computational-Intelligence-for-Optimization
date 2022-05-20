@@ -77,7 +77,7 @@ def tournament(population, size=10):
         raise Exception("No optimization specified (min or max).")
 
 
-def ranking_selection(population):
+def ranking_selection(population): # bad representation
     if population.optim == "max":
         fitness_list = [individual.fitness for individual in population]
         fitness_list, population = zip(*sorted(zip(fitness_list, population), reverse=True))
@@ -94,20 +94,25 @@ def ranking_selection(population):
                 return individual
 
     elif population.optim == "min":
-        inverted_fitness_list = [1/individual.fitness for individual in population]
-        inverted_fitness_list, population = zip(*sorted(zip(inverted_fitness_list, population), reverse=True))
-        inverted_fitness_list, population = list(inverted_fitness_list), list(population)
-        total_positions = sum([i for i in range(1, len(inverted_fitness_list) + 1)])
+        inverted_fitness_list = [1/individual.fitness \
+            if individual.fitness != 0 else 1 \
+                for individual in population]
+        inverted_fitness_list, population = \
+            zip(*sorted(zip(inverted_fitness_list, population), reverse=True))
+        inverted_fitness_list, population = \
+            list(inverted_fitness_list), list(population)
+        total_positions = sum([i for i in \
+            range(1, len(inverted_fitness_list) + 1)])
         #prob_list = [i for i in range(1, len(inverted_fitness_list) + 1)] / total_positions
         # Get a 'position' on the wheel
         spin = uniform(0, total_positions)
         position = 0
         # Find individual in the position of the spin
-        for individual in population:
+        for indiv in range(1,len(population)+1):
             #ranking start at 1, but index starts at 0, therefore, we have to add 1
-            position += population.index(individual) +1
+            position += indiv
             if position > spin:
-                return individual
+                return population[indiv - 1]
     else:
         raise Exception("No optimization specified (min or max).")
 
