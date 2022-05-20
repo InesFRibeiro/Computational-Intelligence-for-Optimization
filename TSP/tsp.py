@@ -4,9 +4,9 @@ from search import hill_climb, sim_annealing
 from tsp_data import distance_matrix
 from copy import deepcopy
 from selection import fps, tournament, ranking_selection
-from mutation import swap_mutation, inversion_mutation
-from crossover import cycle_co, pmx_co, new_pmx_co, \
-    order1_crossover, cx_crossover
+from mutation import swap_mutation, inversion_mutation, scramble
+from crossover import cycle_co, new_pmx_co, \
+    correct_co, cxOrdered
 import matplotlib.pyplot as plt
 
 def get_fitness(self):
@@ -66,8 +66,8 @@ for selec in selection_list:
         evolved_pop = pop.evolve(
             gens=num_gens,
             select=selec,
-            crossover=new_pmx_co,
-            mutate=inversion_mutation,
+            crossover=cycle_co,
+            mutate=scramble,
             co_p=0.9,
             mu_p=0.1,
             elitism=True
