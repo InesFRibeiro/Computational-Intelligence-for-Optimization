@@ -1,4 +1,4 @@
-from random import randint, sample, randrange
+from random import randint, sample
 
 
 def swap_mutation(individual):
@@ -37,27 +37,6 @@ def inversion_mutation(individual):
 
     return individual
 
-
-def greedy_mutations(individual):
-
-    mut_list = []
-    mut_list.extend(individual)
-    rng = randrange(0, len(individual))
-    city = individual[rng]
-
-    fkcja_celu = individual.get_fitness()
-    for i in range(len(individual)):
-
-        if i == 0:
-            individual.pop(rng)
-        else:
-            individual.pop(i - 1)
-
-        individual.insert(i, city)
-        tmpfkcja_celu = individual.get_fitness()
-        if tmpfkcja_celu < fkcja_celu:
-            return individual
-    return mut_list
 
 if __name__ == '__main__':
     test = [6, 1, 3, 5, 2, 4, 7]

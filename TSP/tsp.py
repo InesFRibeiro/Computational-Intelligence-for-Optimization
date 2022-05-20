@@ -4,7 +4,7 @@ from search import hill_climb, sim_annealing
 from tsp_data import distance_matrix
 from copy import deepcopy
 from selection import fps, tournament, ranking_selection
-from mutation import swap_mutation, inversion_mutation, greedy_mutations
+from mutation import swap_mutation, inversion_mutation
 from crossover import cycle_co, pmx_co, order1_crossover, cx_crossover
 import matplotlib.pyplot as plt
 
@@ -65,8 +65,8 @@ for selec in selection_list:
         evolved_pop = pop.evolve(
             gens=num_gens,
             select=selec,
-            crossover=order1_crossover,
-            mutate=greedy_mutations,
+            crossover=pmx_co,
+            mutate=inversion_mutation,
             co_p=0.9,
             mu_p=0.1,
             elitism=True
