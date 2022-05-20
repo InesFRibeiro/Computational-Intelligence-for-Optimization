@@ -65,7 +65,7 @@ for selec in selection_list:
         evolved_pop = pop.evolve(
             gens=num_gens,
             select=selec,
-            crossover=pmx_co,
+            crossover=cycle_co,
             mutate=inversion_mutation,
             co_p=0.9,
             mu_p=0.1,
