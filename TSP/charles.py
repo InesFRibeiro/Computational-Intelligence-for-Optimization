@@ -110,8 +110,7 @@ class Population:
             best_fit_dict[gen] = best_fit.fitness
 
         return best_fit_dict, self
-        # lista de fitnesses por geração
-        # para fazer o gráfico de comparação de algoritmos
+        # List of fitnesses by generation
         # banana
 
     def __len__(self):

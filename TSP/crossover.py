@@ -40,6 +40,16 @@ def cycle_co(p1, p2):
     return offspring1, offspring2
 
 def new_pmx_co(p1,p2):
+    """Implementation of partially matched/mapped crossover.
+
+    Args:
+        p1 (Individual): First parent for crossover.
+        p2 (Individual): Second parent for crossover.
+
+    Returns:
+        Individuals: Two offspring, resulting from the crossover.
+    """
+
     co_points = sample(range(len(p1)), 2)
     co_points.sort()
     #co_points = (0,2)
@@ -68,8 +78,17 @@ def new_pmx_co(p1,p2):
     o1, o2 = new_PMX(p1,p2), new_PMX(p2,p1)
     return o1, o2
 
-def correct_co(parent1, parent2):
+def corrected_co(parent1, parent2):
+    """Implementation of regular crossover with correction
+    for duplicates.
 
+    Args:
+        p1 (Individual): First parent for crossover.
+        p2 (Individual): Second parent for crossover.
+
+    Returns:
+        Individuals: Two offspring, resulting from the crossover.
+    """
     def process_gen_repeated(copy_child1, copy_child2, pos):
         count1 = 0
         for gen1 in copy_child1[:pos]:
