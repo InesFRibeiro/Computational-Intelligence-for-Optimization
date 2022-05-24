@@ -60,7 +60,8 @@ mutation_list = [swap_mutation, inversion_mutation, scramble]
 
 optim="min"
 
-avg_fit_list = []
+avg_fit_dict = {}
+best_fit_dict = {}
 
 for mute in mutation_list:
     fig, axes = plt.subplots(1, len(crossover_list), figsize = [20, 8])
@@ -120,7 +121,9 @@ for mute in mutation_list:
                         best_one = pop.getBestFit()
                         best_fit = best_one.get_fitness()
 
-            print(best_one)
+            best_fit_dict[selec.__name__ + " " + \
+                crosser.__name__ + " " + \
+                mute.__name__ + " "] = best_fit
             print(best_one.returnPath())
             # Returns a solution for testing purposes
             #(make it be the best one - banana)
@@ -140,10 +143,9 @@ for mute in mutation_list:
                 avg_dict_base[avg] /= n
                 # Computes averages
 
-            avg_fit_list.append({selec.__name__ + " " + \
+            avg_fit_dict[selec.__name__ + " " + \
                 crosser.__name__ + " " + \
-                mute.__name__ + " ": \
-                avg_dict_base[99]})
+                mute.__name__ + " "] = avg_dict_base[99]
 
             ax.plot(avg_dict_base.keys(),\
                 avg_dict_base.values(), \
@@ -159,4 +161,5 @@ for mute in mutation_list:
     plt.show()
     #plt.clf()
 
-print(avg_fit_list)
+print(max(avg_fit_dict))
+print(max(best_fit_dict))
