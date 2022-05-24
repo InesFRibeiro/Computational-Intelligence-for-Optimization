@@ -60,6 +60,8 @@ mutation_list = [swap_mutation, inversion_mutation, scramble]
 
 optim="min"
 
+avg_fit_list = []
+
 for mute in mutation_list:
     fig, axes = plt.subplots(1, len(crossover_list), figsize = [20, 8])
     for ax, crosser in zip(axes.flatten(), crossover_list):
@@ -138,6 +140,11 @@ for mute in mutation_list:
                 avg_dict_base[avg] /= n
                 # Computes averages
 
+            avg_fit_list.append({selec.__name__ + " " + \
+                crosser.__name__ + " " + \
+                mute.__name__ + " ": \
+                avg_dict_base[99]})
+
             ax.plot(avg_dict_base.keys(),\
                 avg_dict_base.values(), \
                     label = selec.__name__)
@@ -151,3 +158,5 @@ for mute in mutation_list:
     #plt.legend()
     plt.show()
     #plt.clf()
+
+print(avg_fit_list)
