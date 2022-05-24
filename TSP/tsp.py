@@ -1,10 +1,11 @@
 #from TSP.crossover import order1_crossover
 from charles import Population, Individual
 from search import hill_climb, sim_annealing
-from tsp_data import distance_matrix
+from tsp_data2 import distance_matrix
 from copy import deepcopy
 from selection import fps, tournament, ranking_selection
-from mutation import swap_mutation, inversion_mutation, scramble
+from mutation import swap_mutation, inversion_mutation, \
+    scramble, insert
 from crossover import cycle_co, new_pmx_co, \
     corrected_co, cxOrdered
 import matplotlib.pyplot as plt
@@ -21,9 +22,6 @@ def get_fitness(self):
     for i in range(len(self.representation)):
         fitness += distance_matrix[self.representation[i - 1]][self.representation[i]]
     return int(fitness)
-
-def get_fitness_2():
-    pass
 
 def get_neighbours(self):
     """A neighbourhood function for the TSP problem. Switches
@@ -53,10 +51,10 @@ final_pop_list = []
 # Available selection methods
 selection_list = [fps, tournament, ranking_selection]
 # Available crossover methods
-crossover_list = [cycle_co, new_pmx_co, corrected_co]#, cxOrdered]
+crossover_list = [cycle_co, new_pmx_co, corrected_co, cxOrdered]
 # pôr depois o cxordered outra vez, mas tava lento
 # Available mutation methods
-mutation_list = [swap_mutation, inversion_mutation, scramble]
+mutation_list = [swap_mutation, inversion_mutation, scramble, insert]
 
 optim="min"
 
@@ -90,7 +88,7 @@ for mute in mutation_list:
                     sol_size=len(distance_matrix[0]),
                     valid_set=[i for i in range(len(distance_matrix[0]))],
                     replacement=False,
-                    optim="min",
+                    optim=optim,
                 )
                 # Creating a Population of 20 possible solutions
 
@@ -121,10 +119,11 @@ for mute in mutation_list:
                         best_one = pop.getBestFit()
                         best_fit = best_one.get_fitness()
 
-            best_fit_dict[selec.__name__ + " " + \
-                crosser.__name__ + " " + \
-                mute.__name__ + " "] = best_fit
-            print(best_one.returnPath())
+            best_fit_dict["Selection method: " + \
+                selec.__name__ + "; Crossover method: " + \
+                crosser.__name__ + "; Mutation method: " + \
+                mute.__name__ + " "] = best_one
+            #print(best_one.returnPath())
             # Returns a solution for testing purposes
             #(make it be the best one - banana)
             final_pop_list.append(final_pops)
@@ -143,8 +142,9 @@ for mute in mutation_list:
                 avg_dict_base[avg] /= n
                 # Computes averages
 
-            avg_fit_dict[selec.__name__ + " " + \
-                crosser.__name__ + " " + \
+            avg_fit_dict["Selection method: " + \
+                selec.__name__ + "; Crossover method: " + \
+                crosser.__name__ + "; Mutation method: " + \
                 mute.__name__ + " "] = avg_dict_base[99]
 
             ax.plot(avg_dict_base.keys(),\
@@ -161,5 +161,17 @@ for mute in mutation_list:
     plt.show()
     #plt.clf()
 
-print(max(avg_fit_dict))
-print(max(best_fit_dict))
+best_avg_fit = max(avg_fit_dict)
+best_best_fit = max(best_fit_dict)
+
+print("The best average fitness obtained is: " + \
+    str(avg_fit_dict[best_avg_fit]) + \
+        ";\nObtained for the model with the parameters: " + \
+            best_avg_fit)
+
+print("The best fitness obtained is: " + \
+    str(best_fit_dict[best_best_fit].get_fitness()) + \
+        ";\nObtained for the model with the parameters: " + \
+            best_best_fit + ";\nFor the following path: " + \
+                str(best_fit_dict[best_best_fit].returnPath()))
+

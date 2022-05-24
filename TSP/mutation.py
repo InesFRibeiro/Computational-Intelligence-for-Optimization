@@ -48,9 +48,24 @@ def scramble(individual):
     return individual
 
 def insert(individual):
-    ''' randomly extract a city and insert it in a randomly selected position'''
-    city = individual.pop(randrange(len(individual)))
-    individual.insert(randint(0,len(individual)),city)
+    ''' randomly extract a city and insert 
+    it in a randomly selected position'''
+    
+    old_spot = randint(0,len(individual)-1)
+    new_spot = randint(0,len(individual)-1)
+    while new_spot == old_spot:
+        new_spot = randint(0,len(individual)-1)
+    old_local = individual[old_spot]
+
+    if new_spot > old_spot:
+        individual[old_spot:new_spot] = \
+            individual[old_spot + 1:new_spot + 1]
+        individual[new_spot] = old_local
+    else:
+        individual[new_spot + 1:old_spot + 1] = \
+            individual[new_spot:old_spot]
+        individual[new_spot] = old_local
+
     return individual
 
 if __name__ == '__main__':
