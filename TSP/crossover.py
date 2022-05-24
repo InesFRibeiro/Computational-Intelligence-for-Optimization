@@ -94,9 +94,9 @@ def corrected_co(parent1, parent2):
         for gen1 in copy_child1[:pos]:
             repeat = 0
             repeat = copy_child1.count(gen1)
-            if repeat > 1:  # If need to fix repeated gen
+            if repeat > 1:  # If there's a repeated item
                 count2 = 0
-                for gen2 in parent1[pos:]:  # Choose next available gen
+                for gen2 in parent1[pos:]:  # Choose next available item
                     if gen2 not in copy_child1:
                         child1[count1] = parent1[pos:][count2]
                     count2 += 1
