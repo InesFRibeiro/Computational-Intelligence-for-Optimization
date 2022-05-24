@@ -101,17 +101,24 @@ class Population:
 
             self.individuals = new_pop
 
-            if self.optim == "max":
-                best_fit = max(self, key=attrgetter("fitness"))
-            elif self.optim == "min":
-                best_fit = min(self, key=attrgetter("fitness")) 
-                
+            best_fit = self.getBestFit()
+   
             #print(f'Best Individual: {best_fit}')
             best_fit_dict[gen] = best_fit.fitness
 
-        return best_fit_dict, self
+        return best_fit_dict#, self
         # List of fitnesses by generation
         # banana
+
+    def getOptim(self):
+        return self.optim
+
+    def getBestFit(self):
+        if self.optim == "max":
+            best_fit = max(self, key=attrgetter("fitness"))
+        elif self.optim == "min":
+            best_fit = min(self, key=attrgetter("fitness")) 
+        return best_fit
 
     def __len__(self):
         return len(self.individuals)
@@ -122,8 +129,7 @@ class Population:
     def getIndivs(self):
         return self.individuals
 
-    def getBestFit(self):
-        return self.best_fit
+    
 
     def __repr__(self):
         return f"Population(size={len(self.individuals)}, individual_size={len(self.individuals[0])})"

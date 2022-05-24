@@ -1,4 +1,4 @@
-from random import randint, sample, shuffle
+from random import randint, sample, shuffle, randrange
 
 
 def swap_mutation(individual):
@@ -45,6 +45,12 @@ def scramble(individual):
     swath = individual[l:r]
     shuffle(swath)
     individual[l:r] = swath
+    return individual
+
+def insert(individual):
+    ''' randomly extract a city and insert it in a randomly selected position'''
+    city = individual.pop(randrange(len(individual)))
+    individual.insert(randint(0,len(individual)),city)
     return individual
 
 if __name__ == '__main__':
