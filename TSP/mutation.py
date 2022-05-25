@@ -41,8 +41,11 @@ def inversion_mutation(individual):
 
 def scramble(individual):
     ''' select a random swath and scramble the cities in it'''
+    # select random window
     l,r = sorted(sample(range(0, len(individual)), 2))
     swath = individual[l:r]
+
+    # shuffle random window
     shuffle(swath)
     individual[l:r] = swath
     return individual
@@ -54,17 +57,28 @@ def insert(individual):
     old_spot = randint(0,len(individual)-1)
     new_spot = randint(0,len(individual)-1)
     while new_spot == old_spot:
+        # Re-randomize new slot if it' the same as the old one
         new_spot = randint(0,len(individual)-1)
+    # Stores the item to be moved
     old_local = individual[old_spot]
 
     if new_spot > old_spot:
+        # If the new spot is further ahead than the old spot, 
+        #shift every item between the two spots, including the
+        #item current in the new spot, one position back
         individual[old_spot:new_spot] = \
             individual[old_spot + 1:new_spot + 1]
-        individual[new_spot] = old_local
+        
+
     else:
+        # If the old spot is further ahead than the new spot, 
+        #shift every item between the two spots, including the
+        #item current in the new spot, one position forward
         individual[new_spot + 1:old_spot + 1] = \
             individual[new_spot:old_spot]
-        individual[new_spot] = old_local
+
+    # Puts the item in it new spot 
+    individual[new_spot] = old_local
 
     return individual
 

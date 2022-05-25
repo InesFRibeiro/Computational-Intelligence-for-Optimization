@@ -1,7 +1,7 @@
 #from TSP.crossover import order1_crossover
 from charles import Population, Individual
 from search import hill_climb, sim_annealing
-from tsp_data2 import distance_matrix
+from tsp_data2 import cities, distance_matrix
 from copy import deepcopy
 from selection import fps, tournament, ranking_selection
 from mutation import swap_mutation, inversion_mutation, \
@@ -123,9 +123,9 @@ for mute in mutation_list:
                 selec.__name__ + "; Crossover method: " + \
                 crosser.__name__ + "; Mutation method: " + \
                 mute.__name__ + " "] = best_one
-            #print(best_one.returnPath())
-            # Returns a solution for testing purposes
-            #(make it be the best one - banana)
+            # Stores best fitness individual of last generation 
+            #for each algorithm
+
             final_pop_list.append(final_pops)
 
             avg_dict_base = evo_list_base[0]
@@ -146,6 +146,9 @@ for mute in mutation_list:
                 selec.__name__ + "; Crossover method: " + \
                 crosser.__name__ + "; Mutation method: " + \
                 mute.__name__ + " "] = avg_dict_base[99]
+
+            # Stores average fitness of last generation 
+            #for each algorithm
 
             ax.plot(avg_dict_base.keys(),\
                 avg_dict_base.values(), \
@@ -169,9 +172,19 @@ print("The best average fitness obtained is: " + \
         ";\nObtained for the model with the parameters: " + \
             best_avg_fit)
 
+full_path = [cities[c] for c in \
+    best_fit_dict[best_best_fit].returnPath()]
+
+full_path_str = ""
+for t in full_path:
+    full_path_str = full_path_str + t + " -> "
+
+full_path_str = full_path_str[:-4]
+
 print("The best fitness obtained is: " + \
     str(best_fit_dict[best_best_fit].get_fitness()) + \
         ";\nObtained for the model with the parameters: " + \
             best_best_fit + ";\nFor the following path: " + \
-                str(best_fit_dict[best_best_fit].returnPath()))
+                full_path_str)
+                #str(best_fit_dict[best_best_fit].returnPath()))
 
