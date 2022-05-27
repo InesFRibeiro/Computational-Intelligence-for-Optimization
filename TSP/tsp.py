@@ -160,9 +160,9 @@ for mute in mutation_list:
 
     plt.suptitle("Selection and crossover comparisons "+\
         "for mutation " + mute.__name__)
-    #plt.legend()
+
     plt.show()
-    #plt.clf()
+
 
 best_avg_fit = max(avg_fit_dict)
 best_best_fit = max(best_fit_dict)
@@ -187,5 +187,4 @@ print("The best fitness obtained is: " + \
         ";\nObtained for the model with the parameters: " + \
             best_best_fit + ";\nFor the following path: " + \
                 full_path_str)
-                #str(best_fit_dict[best_best_fit].returnPath()))
 
