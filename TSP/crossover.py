@@ -124,6 +124,7 @@ def corrected_co(parent1, parent2):
 
     return process_gen_repeated(child1, child2, pos)
 
+#Adapted from https://github.com/DEAP/deap/blob/master/deap/tools/crossover.py
 def cxOrdered(parent1, parent2):
     """Executes an ordered crossover (OX) on the input
     individuals. The two individuals are modified in place. This crossover
