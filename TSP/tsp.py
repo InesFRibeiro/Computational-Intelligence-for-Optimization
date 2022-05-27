@@ -172,6 +172,7 @@ print("The best average fitness obtained is: " + \
         ";\nObtained for the model with the parameters: " + \
             best_avg_fit)
 
+# The path of the best fit
 full_path = [cities[c] for c in \
     best_fit_dict[best_best_fit].returnPath()]
 
