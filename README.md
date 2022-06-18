@@ -14,7 +14,7 @@ Finally, for the mutation we implemented swap mutation, inversion mutation and s
 
 
 **Group Members:**   
-\- Beatriz Vizoso
+\- Beatriz Vizoso    
 \- Inês Ribeiro (https://github.com/InesFRibeiro)   
-\- José Dias (https://github.com/josedias97)
+\- José Dias (https://github.com/josedias97)    
 \- Matias Neves (https://github.com/HitGobba)
