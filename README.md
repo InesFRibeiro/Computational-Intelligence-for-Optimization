@@ -1,5 +1,5 @@
 # Computational Intelligence for Optimization
-## Travelling Sales Person   
+## Travelling Sales Person - Genetic Algorithms
    
 **MSc:** Data Science and Advanced Analytics, NOVA IMS   
 **Grade:** 17.7 out of 20  
