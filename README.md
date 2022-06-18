@@ -8,7 +8,7 @@
 ### Description   
 This project aimed to optimize a route between cities (TSP problem) using genetic algorithms.    
 It was implemented and study which types of operations (selection, crossover, mutation etc.) work best for the TSP problem.
-For the selection process we implemented the fitness froportion felection (roulette Wheel), tournament selection and ranking selection.   
+For the selection process we implemented the fitness proportionate selection (roulette wheel), tournament selection and ranking selection.   
 We implemented 4 types of crossover: cycle crossover, partially matched crossover, corrected crossover and ordered crossover.    
 Finally, for the mutation we implemented swap mutation, inversion mutation and scramble mutation.
 
